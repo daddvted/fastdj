@@ -1,5 +1,5 @@
 # Use command below to generate secret key:
-# openssl rand
+# openssl rand -hex 32
 SECRET_KEY = '52b0d5c1d8d1418ce615ecab1795a31b808040731d349f85a4c0135b3e910643'
 ALGORITHM = 'HS256'
 ACCESS_TOKEN_EXPIRE_MINUTES = 60
