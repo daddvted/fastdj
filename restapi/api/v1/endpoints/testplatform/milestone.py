@@ -2,16 +2,16 @@ from fastapi import Depends, APIRouter
 
 from restapi.core.security import get_valid_user
 from restapi.core.util import convert_django_model
-from restapi.model.testplatform import ProjectOut
+from restapi.model.testplatform import MilestoneOut
 
-from apps.testplatform.models import Project
+from apps.testplatform.models import  Milestone
 
 
 router = APIRouter()
 
 
-@router.get('/project', response_model=ProjectOut)
-async def get_projects():
-    all = Project.objects.all()
+@router.get('/milestone', response_model=MilestoneOut)
+async def get_milestones():
+    all = Milestone.objects.all()
     print(all)
     return convert_django_model(all)
