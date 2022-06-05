@@ -5,7 +5,7 @@ from django.db import models
 
 class Project(models.Model):
     name = models.CharField(max_length=100)
-    description = models.CharField(max_length=200, blank=True)
+    description = models.TextField(blank=True, null=True)
     owner = models.CharField(max_length=50, blank=True)
     planned = models.BooleanField(default=False)
     phase = models.CharField(max_length=50, null=True, blank=True)
@@ -17,7 +17,7 @@ class Project(models.Model):
 
 class Milestone(models.Model):
     name = models.CharField(max_length=50)
-    description = models.CharField(max_length=200, blank=True)
+    description = models.TextField(blank=True, null=True)
     start_time = models.DateTimeField(blank=True, null=True)
     end_time = models.DateTimeField(blank=True, null=True)
 
@@ -54,8 +54,9 @@ RESULT_STATUS = [
 
 class Result(models.Model):
     status = models.IntegerField(choices=RESULT_STATUS)
-    planned = models.BooleanField(default=False)
+    tester = models.CharField(max_length=50)
     case_name = models.CharField(max_length=500, null=True, blank=True)    # for non-planned case
     project_name = models.CharField(max_length=100, null=True, blank=True) # for non-planned case
+    completed_date = models.DateTimeField(null=True, blank=True)
 
     plan = models.ForeignKey(Plan, on_delete=models.CASCADE, null=True, blank=True)
