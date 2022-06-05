@@ -1,3 +1,4 @@
+from pyexpat import model
 from django.db import models
 
 # Create your models here.
@@ -29,7 +30,7 @@ class Milestone(models.Model):
 
 
 class Case(models.Model):
-    name = models.CharField(max_length=500)
+    name = models.CharField(max_length=500, unique=True)
     description = models.TextField(blank=True, null=True)
     owner = models.CharField(max_length=50, blank=True, null=True)
     automated = models.BooleanField(default=False)
@@ -47,7 +48,7 @@ class Plan(models.Model):
 
 
 RESULT_STATUS = [
-   (0, 'pass') ,
+   (0, 'passed') ,
    (1, 'failed') ,
 ]
 
@@ -58,5 +59,6 @@ class Result(models.Model):
     case_name = models.CharField(max_length=500, null=True, blank=True)    # for non-planned case
     project_name = models.CharField(max_length=100, null=True, blank=True) # for non-planned case
     completed_date = models.DateTimeField(null=True, blank=True)
+    in_plan = models.BooleanField(default=False)
 
     plan = models.ForeignKey(Plan, on_delete=models.CASCADE, null=True, blank=True)

@@ -29,7 +29,7 @@ class PlanAdmin(admin.ModelAdmin):
 
 @admin.register(Result)
 class ResultAdmin(admin.ModelAdmin):
-    list_display = ('status', 'planned')
+    list_display = ('status',)
 
     @admin.display(empty_value='???')
     def case_name(self, obj):
