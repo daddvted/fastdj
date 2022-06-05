@@ -59,3 +59,9 @@ class ResultBase(BaseModel):
     case_name: Optional[str]
     project_name: Optional[str]
     completed_date: Optional[datetime]
+    in_plan: Optional[bool]
+
+    plan: int
+
+class ResultOut(ResultBase):
+    id: int
