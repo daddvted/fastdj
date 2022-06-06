@@ -36,6 +36,7 @@ def convert_django_model(django_model) -> list:
         serial_json = serializers.serialize('json', [django_model])
     objects = []
     for object in json.loads(serial_json):
+        print(f'convert - object: {object}')
         data = object['fields']
         data['pk'] = object['pk']
         objects.append(data)

@@ -1,3 +1,4 @@
+from typing import List
 from fastapi import Depends, APIRouter
 
 from restapi.core.security import get_valid_user
@@ -10,8 +11,11 @@ from apps.testplatform.models import Project
 router = APIRouter()
 
 
-@router.get('/project', response_model=ProjectOut)
+@router.get('/project', response_model=List[ProjectOut])
 async def get_projects():
     all = Project.objects.all()
-    print(all)
+    # print(all)
+    # tmp = convert_django_model(all)
+    # print(tmp)
+    # return ""
     return convert_django_model(all)

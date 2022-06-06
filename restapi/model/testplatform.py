@@ -13,7 +13,8 @@ class ProjectBase(BaseModel):
 
 
 class ProjectOut(ProjectBase):
-    id: int
+    # id: int
+    pk: int
 
 
 class MilestoneBase(BaseModel):
