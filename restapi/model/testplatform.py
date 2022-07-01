@@ -13,7 +13,6 @@ class ProjectBase(BaseModel):
 
 
 class ProjectOut(ProjectBase):
-    # id: int
     pk: int
 
 
@@ -26,7 +25,7 @@ class MilestoneBase(BaseModel):
 
 
 class MilestoneOut(MilestoneBase):
-    id: int
+    pk: int
 
 
 class CaseBase(BaseModel):
@@ -37,7 +36,7 @@ class CaseBase(BaseModel):
 
 
 class CaseOut(CaseBase):
-    id: int
+    pk: int
 
 
 class PlanBase(BaseModel):
@@ -47,7 +46,7 @@ class PlanBase(BaseModel):
     plan_to_end: Optional[datetime]
 
 class PlanOut(PlanBase):
-    id :int
+    pk :int
 
 
 class ResultEnum(int, Enum):
@@ -65,4 +64,4 @@ class ResultBase(BaseModel):
     plan: int
 
 class ResultOut(ResultBase):
-    id: int
+    pk: int

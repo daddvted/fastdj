@@ -30,6 +30,7 @@ def get_logger(name: str = 'xxx'):
 
 
 def convert_django_model(django_model) -> list:
+    print(isinstance(django_model, Iterable))
     if isinstance(django_model, Iterable):
         serial_json = serializers.serialize('json', django_model)
     else:
