@@ -1,4 +1,6 @@
 import os
+import logging
+from logging.handlers import RotatingFileHandler
 from pathlib import Path
 
 # Django modules 
@@ -37,6 +39,15 @@ app.add_middleware(
     allow_headers=['*'],
 )
 
+@app.on_event('startup')
+async def startup_event():
+    logger = logging.getLogger('uvicorn.access')
+    stream_handler = logging.StreamHandler()
+    handler = RotatingFileHandler('main.log', mode='a', maxBytes=conf.LOG_MAX_BYTES, backupCount=conf.LOG_BACKUP_COUNT)
+    stream_handler.setFormatter(logging.Formatter(conf.LOG_FORMAT))
+    handler.setFormatter(logging.Formatter(conf.LOG_FORMAT))
+    logger.addHandler(stream_handler)
+    logger.addHandler(handler)
 
 app.include_router(api_router, prefix=conf.API_PREFIX)
 

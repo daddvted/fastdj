@@ -1,9 +1,11 @@
 import os
 import json
 import logging
+from logging.handlers import RotatingFileHandler
 from typing import Iterable
 
 from django.core import serializers
+from restapi.core import conf
 
 
 def get_logging_level():
@@ -20,13 +22,18 @@ def get_logging_level():
     return log_dict[lvl]
 
 
-def get_logger(name: str = 'xxx'):
-    log = logging.getLogger(name)
-    # log_format = '[%(asctime)s] %(levelname)s: %(message)s'
-    # date_format = '%Y-%m-%d %H:%M:%S'
-    # logging.basicConfig(format=log_format, datefmt=date_format)
-    log.setLevel(get_logging_level())
-    return log
+def init_logger(name: str = 'xxx'):
+    logger = logging.getLogger(name)
+    logger.setLevel(get_logging_level())
+    sh = logging.StreamHandler()
+    fh = RotatingFileHandler('main.log', mode='a', maxBytes=conf.LOG_MAX_BYTES, backupCount=conf.LOG_BACKUP_COUNT)
+    fmt = logging.Formatter(conf.LOG_FORMAT)
+
+    sh.setFormatter(fmt)
+    fh.setFormatter(fmt)
+    logger.addHandler(sh)
+    logger.addHandler(fh)
+    return logger
 
 
 def convert_django_model(django_model) -> list:

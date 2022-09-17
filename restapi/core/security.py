@@ -1,4 +1,3 @@
-from asyncio.log import logger
 from datetime import datetime, timedelta
 
 from fastapi import Depends, HTTPException
@@ -7,9 +6,10 @@ from starlette.status import HTTP_401_UNAUTHORIZED
 from jose import jwt, JWTError
 
 from restapi.core import conf
-from restapi.core.util import get_logger
+from restapi.core.util import init_logger
 
-LOG = get_logger(__name__)
+LOG = init_logger(__name__)
+
 
 oauth2 = OAuth2PasswordBearer(tokenUrl=f'{conf.API_PREFIX}/auth/token')
 

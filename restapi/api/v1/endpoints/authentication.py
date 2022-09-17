@@ -1,3 +1,4 @@
+import logging
 from datetime import timedelta
 
 from fastapi import APIRouter, Depends, HTTPException
@@ -8,14 +9,13 @@ from starlette.status import HTTP_401_UNAUTHORIZED
 from django.contrib.auth import authenticate
 
 from restapi.model.auth import Token
-from restapi.core.util import get_logger
 from restapi.core.security import create_access_token
+from restapi.core.util import init_logger
 from restapi.core import conf 
 
+LOG = init_logger(__name__)
 
 router = APIRouter()
-
-LOG = get_logger(__name__)
 
 
 @router.post('/token', response_model=Token, name="Token")
