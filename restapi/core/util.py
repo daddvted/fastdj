@@ -35,16 +35,18 @@ def init_logger(name: str = 'xxx'):
     logger.addHandler(fh)
     return logger
 
+LOG = init_logger(__name__)
 
 def convert_django_model(django_model) -> list:
-    print(isinstance(django_model, Iterable))
+    LOG.debug(f"django_model iterable: {isinstance(django_model, Iterable)}")
     if isinstance(django_model, Iterable):
         serial_json = serializers.serialize('json', django_model)
     else:
+        # If "django_model" is not iterable, convert it to list
         serial_json = serializers.serialize('json', [django_model])
     objects = []
+    LOG.debug(f"serial_jdon: {serial_json}")
     for object in json.loads(serial_json):
-        print(f'convert - object: {object}')
         data = object['fields']
         data['pk'] = object['pk']
         objects.append(data)

@@ -3,22 +3,24 @@ import logging
 from logging.handlers import RotatingFileHandler
 from pathlib import Path
 
-# Django modules 
+# Import Django Modules
 from django.core.wsgi import get_wsgi_application
 from django.conf import settings
 from fastapi import FastAPI
 
 # INITIALIZE DJANGO APP HERE
 os.environ["DJANGO_ALLOW_ASYNC_UNSAFE"] = "true"
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'fastdj.settings')
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "fastdj.settings")
 django_app = get_wsgi_application()
 
-# FastAPI modules
+# Import FastAPI Modules
 from fastapi.middleware.wsgi import WSGIMiddleware
 from fastapi.staticfiles import StaticFiles
-from fastapi.openapi.docs import get_swagger_ui_html, get_swagger_ui_oauth2_redirect_html
+from fastapi.openapi.docs import (
+    get_swagger_ui_html,
+    get_swagger_ui_oauth2_redirect_html,
+)
 from starlette.middleware.cors import CORSMiddleware
-
 
 from restapi.core import conf, version
 from restapi.api.v1.api import api_router
@@ -34,26 +36,34 @@ app = FastAPI(
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins = ['*'],
-    allow_methods=['*'],
-    allow_headers=['*'],
+    allow_origins=["*"],
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
 
-@app.on_event('startup')
+
+@app.on_event("startup")
 async def startup_event():
-    logger = logging.getLogger('uvicorn.access')
+    logger = logging.getLogger("uvicorn.access")
     stream_handler = logging.StreamHandler()
-    handler = RotatingFileHandler('main.log', mode='a', maxBytes=conf.LOG_MAX_BYTES, backupCount=conf.LOG_BACKUP_COUNT)
+    handler = RotatingFileHandler(
+        "main.log",
+        mode="a",
+        maxBytes=conf.LOG_MAX_BYTES,
+        backupCount=conf.LOG_BACKUP_COUNT,
+    )
     stream_handler.setFormatter(logging.Formatter(conf.LOG_FORMAT))
     handler.setFormatter(logging.Formatter(conf.LOG_FORMAT))
     logger.addHandler(stream_handler)
     logger.addHandler(handler)
 
+
 app.include_router(api_router, prefix=conf.API_PREFIX)
 
 # Self host swagger static files
 base_dir = Path(__file__).resolve().parent
-app.mount('/static', StaticFiles(directory=base_dir / 'static'), name='static')
+app.mount("/static", StaticFiles(directory=base_dir / "static"), name="static")
+
 
 @app.get("/docs", include_in_schema=False)
 async def custom_swagger_ui_html():
@@ -71,7 +81,7 @@ async def swagger_ui_redirect():
     return get_swagger_ui_oauth2_redirect_html()
 
 
-app.mount('', WSGIMiddleware(django_app))
+app.mount("", WSGIMiddleware(django_app))
 
 # app.mount('/static', StaticFiles(
 #     directory=os.path.normpath(
