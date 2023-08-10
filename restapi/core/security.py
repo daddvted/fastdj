@@ -36,7 +36,9 @@ def create_access_token(*, data: dict, expiration_delta: timedelta):
 def get_valid_user(token: str = Depends(oauth2)) -> str:
     try:
         payload = jwt.decode(token, conf.SECRET_KEY, algorithms=[conf.ALGORITHM])
+        print(payload)
         LOG.debug(payload)
+        LOG.info("==============")
         user = payload.get('user', None)
 
         if user is None:
