@@ -45,7 +45,7 @@ def convert_django_model(django_model) -> list:
         # If "django_model" is not iterable, convert it to list
         serial_json = serializers.serialize('json', [django_model])
     objects = []
-    LOG.debug(f"serial_jdon: {serial_json}")
+    LOG.debug(f"serial_json: {serial_json}")
     for object in json.loads(serial_json):
         data = object['fields']
         data['pk'] = object['pk']
