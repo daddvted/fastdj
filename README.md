@@ -24,3 +24,9 @@ uvicorn main:app --host 0.0.0.0 --port 8000 --reload
 ```
 python manage.py collectstatic --clear
 ```
+
+# Mysql Client
+```
+sudo apt-get install python3-dev default-libmysqlclient-dev build-essential pkg-config 
+pip install mysqlclient
+```
