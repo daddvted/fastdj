@@ -7,6 +7,13 @@ Development under Ubuntu 20.04
 sudo apt-get install python3-dev default-libmysqlclient-dev build-essential
 ```
 
+# Create APP
+```
+cd apps
+django-admin startapp <app name>
+# then modify apps.py, add prefix like 'apps.<app.name>'
+```
+
 # How to start
 ## Debug with uvicorn
 ```
